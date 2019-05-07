@@ -22,11 +22,9 @@ plot(glmmod, xvar="lambda", label = TRUE)
 cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=10, family="binomial", type.measure='mse')
 plot(cv.glmmod)
 best.lambda <- cv.glmmod$lambda.min
-model.final <- cv.glmmod$glmnet.fit
 coef(cv.glmmod, s = "lambda.min")
-
 te_x = as.matrix(testing_X_data)
 te_y = testing_y_data[['ICD_ID']]
-pre_y <- predict(cv.glmmod, te_x, s = "lambda.min", type = "class")
+pre_y <- predict(cv.glmmod, te_x, s = "lambda.min", type = "response")
 roc_obj <- roc(te_y, as.numeric(pre_y))
 auc(roc_obj)
