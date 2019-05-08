@@ -42,6 +42,7 @@ for(i in 0:10){
 
 best.fit.name <- results[results$mse == min(results$mse),]$fit.name
 best.model <- list.of.fits[[best.fit.name]]
+plot(best.model)
 # feature selection
 coefs <- as.matrix(coef(best.model, s = "lambda.min"))
 coefs <- as.matrix(coefs[-1,]) # Remove Intercept...
@@ -53,3 +54,5 @@ te_y = testing_y_data[['ICD_ID']]
 pre_y <- predict(best.model, te_x, s = "lambda.min", type = "response")
 roc_obj <- roc(te_y, as.numeric(pre_y))
 auc(roc_obj)
+
+write.csv(pre_y,'pre_y.csv')
