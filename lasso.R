@@ -16,10 +16,10 @@ testing_X_data <- dplyr::select(testing_data, -one_of(colnames(testing_id_data))
 
 tr_y = training_y_data[['ICD_ID']]
 tr_x = as.matrix(training_X_data)
-glmmod <- glmnet(tr_x, tr_y, alpha=1, family="binomial")
+glmmod <- glmnet(tr_x, tr_y, alpha=0.5, family="binomial")
 plot(glmmod, xvar="lambda", label = TRUE)
 
-cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=10, family="binomial", type.measure='mse')
+cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=10, family="binomial", type.measure='auc')
 plot(cv.glmmod)
 best.lambda <- cv.glmmod$lambda.min
 coef(cv.glmmod, s = "lambda.min")
