@@ -24,7 +24,7 @@ plot(cv.glmmod)
 # feature selection
 coefs <- as.matrix(coef(cv.glmmod, s = "lambda.1se"))
 coefs <- as.matrix(coefs[-1,]) # Remove Intercept...
-coefs <- subset(coefs, coefs >0)
+selected_coefs <- subset(coefs, coefs >0)
 
 te_x = as.matrix(testing_X_data)
 te_y = testing_y_data[['ICD_ID']]
