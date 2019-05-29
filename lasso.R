@@ -16,13 +16,16 @@ testing_X_data <- dplyr::select(testing_data, -one_of(colnames(testing_id_data))
 
 tr_y = training_y_data[['ICD_ID']]
 tr_x = as.matrix(training_X_data)
-glmmod <- glmnet(tr_x, tr_y, alpha=0.5, family="binomial")
-plot(glmmod, xvar="lambda", label = TRUE)
-
+#glmmod <- glmnet(tr_x, tr_y, alpha=1, family="binomial")
+#plot(glmmod, xvar="lambda", label = TRUE)
+set.seed(1011)
 cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=10, family="binomial", type.measure='auc')
 plot(cv.glmmod)
-best.lambda <- cv.glmmod$lambda.min
-coef(cv.glmmod, s = "lambda.min")
+# feature selection
+coefs <- as.matrix(coef(cv.glmmod, s = "lambda.1se"))
+coefs <- as.matrix(coefs[-1,]) # Remove Intercept...
+coefs <- subset(coefs, coefs >0)
+
 te_x = as.matrix(testing_X_data)
 te_y = testing_y_data[['ICD_ID']]
 pre_y <- predict(cv.glmmod, te_x, s = "lambda.min", type = "response")

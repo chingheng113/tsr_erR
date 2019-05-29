@@ -27,7 +27,7 @@ for (i in 0:10){
                                         nfold=10, family="binomial", 
                                         type.measure='deviance', standardize=TRUE) 
 }
-
+#
 results <- data.frame()
 for(i in 0:10){
   fit.name <- paste0("alpha", i/10)
