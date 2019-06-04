@@ -19,12 +19,13 @@ tr_x = as.matrix(training_X_data)
 #glmmod <- glmnet(tr_x, tr_y, alpha=1, family="binomial")
 #plot(glmmod, xvar="lambda", label = TRUE)
 set.seed(1011)
-cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=20, family="binomial", type.measure='auc')
+cv.glmmod <- cv.glmnet(tr_x, tr_y, alpha=1, nfold=10, family="binomial", type.measure='auc')
 plot(cv.glmmod)
 # feature selection
 coefs <- as.matrix(coef(cv.glmmod, s = "lambda.1se"))
 coefs <- as.matrix(coefs[-1,]) # Remove Intercept...
 selected_coefs <- subset(coefs, coefs != 0)
+odds_of_selected_coefs <- round(exp(selected_coefs),2)
 selected_coefs.names <- rownames(selected_coefs)
 
 te_x = as.matrix(testing_X_data)
@@ -32,3 +33,4 @@ te_y = testing_y_data[['ICD_ID']]
 pre_y <- predict(cv.glmmod, te_x, s = "lambda.1se", type = "response")
 roc_obj <- roc(te_y, as.numeric(pre_y))
 auc(roc_obj)
+write.csv(pre_y,'pre_y.csv')
