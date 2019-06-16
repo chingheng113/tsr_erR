@@ -9,6 +9,7 @@ attach(all_data)
 													
 all_data <- all_data %>%
   mutate(
+    GENDER_TX=factor(GENDER_TX, labels=c('0','1')),
     NIHS_1a_in=factor(NIHS_1a_in, labels=c('0','1','2','3')),
     NIHS_1b_in=factor(NIHS_1b_in, labels=c('0','1','2')),
     NIHS_1c_in=factor(NIHS_1c_in, labels=c('0','1','2')),
