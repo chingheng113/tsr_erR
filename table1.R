@@ -7,6 +7,7 @@ library(dplyr)
 all_data <- read.csv("tsr_er_og.csv", header = TRUE)
 all_data$ICD_ID <- replace(all_data$ICD_ID, all_data$ICD_ID<3, 0)
 all_data$ICD_ID <- replace(all_data$ICD_ID, all_data$ICD_ID>2, 1)
+all_data['NIHSS_Total'] <-all_data$NIHS_1a_in+ all_data$NIHS_1b_in+ all_data$NIHS_1c_in+ all_data$NIHS_2_in+ all_data$NIHS_3_in+ all_data$NIHS_4_in+ all_data$NIHS_5aL_in+ all_data$NIHS_5bR_in+ all_data$NIHS_6aL_in+ all_data$NIHS_6bR_in+ all_data$NIHS_7_in+ all_data$NIHS_8_in+ all_data$NIHS_9_in+ all_data$NIHS_10_in+ all_data$NIHS_11_in
 attach(all_data)
 													
 all_data <- all_data %>%
@@ -37,7 +38,7 @@ all_data <- all_data %>%
 					
 vars <- c('GENDER_TX', 'AGE','HEIGHT_NM',	'WEIGHT_NM', 'NIHS_1a_in','NIHS_1b_in',	'NIHS_1c_in',	'NIHS_2_in',
           'NIHS_3_in', 'NIHS_4_in',	'NIHS_5aL_in',	'NIHS_5bR_in',	'NIHS_6aL_in',	'NIHS_6bR_in',
-          'NIHS_7_in', 'NIHS_8_in',	'NIHS_9_in',	'NIHS_10_in',	'NIHS_11_in',
+          'NIHS_7_in', 'NIHS_8_in',	'NIHS_9_in',	'NIHS_10_in',	'NIHS_11_in', 'NIHSS_Total',
           'SBP_NM',	'DBP_NM',	'PLATELET_NM',	'PTT1_NM',	'PTINR_NM',	'ER_NM',	'CRE_NM',	'HBAC_NM',
           'HT_ID',	'HC_ID',	'DM_ID',	'PISCH_ID',	'HD_ID',	'PAD_ID')
 tabUnmatched <- CreateTableOne(vars = vars, strata = "ICD_ID", data = all_data, test = FALSE)
