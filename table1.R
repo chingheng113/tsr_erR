@@ -1,6 +1,8 @@
 rm(list=ls())
 cat("\014")
 library(tableone)
+library(magrittr)
+library(dplyr)
 
 all_data <- read.csv("tsr_er_og.csv", header = TRUE)
 all_data$ICD_ID <- replace(all_data$ICD_ID, all_data$ICD_ID<3, 0)
